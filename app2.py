@@ -93,7 +93,7 @@ TEMPLATE = """
         <option>Grade 12</option>
     </select>
 
-    <label>Duration (minutes)</label>
+    <label>Duration (Minutes)</label>
     <input type="number" name="duration">
 
     <label>Learning Objective</label>
