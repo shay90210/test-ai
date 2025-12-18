@@ -102,7 +102,7 @@ TEMPLATE = """
     <label>Common Core Standard(s)</label>
     <textarea name="standards"></textarea>
 
-    <label>Materials</label>
+    <label>Material(s)</label>
     <textarea name="materials"></textarea>
 
     <label>Warm-Up</label>
