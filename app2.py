@@ -77,8 +77,8 @@ TEMPLATE = """
 
     <label>Grade Level</label>
     <select name="grade">
-        <option>K–2</option><option>3–5</option>
-        <option>6–8</option><option>9–12</option>
+        <option>K–2</option>
+        
     </select>
 
     <label>Duration (minutes)</label>
