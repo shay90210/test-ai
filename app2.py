@@ -105,7 +105,7 @@ TEMPLATE = """
     <label>Materials</label>
     <textarea name="materials"></textarea>
 
-    <label>Warm-Up Activity</label>
+    <label>Warm-Up</label>
     <textarea name="warmup"></textarea>
 
     <label>Main Activity</label>
