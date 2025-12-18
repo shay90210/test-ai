@@ -111,10 +111,13 @@ TEMPLATE = """
     <label>Main Activity</label>
     <textarea name="activity"></textarea>
 
-    <label>Differentiation / Accommodations</label>
+    <label>Differentiation</label>
     <textarea name="differentiation"></textarea>
 
-    <label>Assessment</label>
+    <label>Check for Understanding</label>
+    <textarea name="assessment"></textarea>
+
+    <label>Final Assessment</label>
     <textarea name="assessment"></textarea>
 
     <button type="submit">Generate Lesson Plan</button>
