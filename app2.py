@@ -77,6 +77,7 @@ TEMPLATE = """
 
     <label>Grade Level</label>
     <select name="grade">
+        <option>Choose Grade Level</option>
         <option>Kindergarten</option>
         <option>Grade 1</option>
         <option>Grade 2</option>
