@@ -99,7 +99,7 @@ TEMPLATE = """
     <label>Learning Objective</label>
     <textarea name="objective"></textarea>
 
-    <label>Standards (ex: NGSS, Common Core)</label>
+    <label>Common Core Standards</label>
     <textarea name="standards"></textarea>
 
     <label>Materials Needed</label>
