@@ -145,18 +145,17 @@ TEMPLATE = """
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    lesson = None
-    if request.method == 'POST':
-        lesson = {
-            'title': request.form['title'],
-            'grade': request.form['grade'],
-            'objective': request.form['objective'],
-            'materials': request.form['materials'],
-            'warmup': request.form['warmup'],
-            'activity': request.form['activity'],
-            'assessment': request.form['assessment']
-        }
-    return render_template_string(TEMPLATE, lesson=lesson)
+        if request.method == 'POST':
+            lesson = {
+                'title': request.form['title'],
+                'grade': request.form['grade'],
+                'objective': request.form['objective'],
+                'materials': request.form['materials'],
+                'warmup': request.form['warmup'],
+                'activity': request.form['activity'],
+                'assessment': request.form['assessment']
+            }
+        return render_template_string(TEMPLATE, lesson=lesson)
 
 if __name__ == '__main__':
     app.run(debug=True)

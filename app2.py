@@ -228,3 +228,13 @@ return render_template_string(TEMPLATE, lesson=lesson, lessons=lessons)
 
 @app.route('/load/<int:lesson_id>')
 def load_lesson(lesson_id):
+db = get_db()
+lesson = db.execute('SELECT * FROM lessons WHERE id = ?', (lesson_id,)).fetchone()
+lessons = db.execute('SELECT id, title FROM lessons ORDER BY id DESC').fetchall()
+return render_template_string(TEMPLATE, lesson=lesson, lessons=lessons)
+
+
+
+
+if __name__ == '__main__':
+app.run(debug=True)
