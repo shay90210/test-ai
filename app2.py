@@ -151,138 +151,27 @@ TEMPLATE = """
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-lesson = None
-if request.method == 'POST':
-lesson = dict(request.form)
-return render_template_string(TEMPLATE, lesson=lesson)
-
-
-@app.route('/export', methods=['POST'])
-def export_pdf():
-buffer = io.BytesIO()
-doc = SimpleDocTemplate(buffer, pagesize=LETTER)
-styles = getSampleStyleSheet()
-content = []
-
-
-for key, value in request.form.items():
-title = key.replace('_', ' ').title()
-content.append(Paragraph(f"<b>{title}</b>: {value}", styles['Normal']))
-content.append(Spacer(1, 12))
-
-
-doc.build(content)
-buffer.seek(0)
-
-
-return send_file(buffer, as_attachment=True, download_name="lesson_plan.pdf", mimetype='application/pdf')
-
-
-# ---- DATABASE SETUP ----
-import sqlite3
-
-
-def get_db():
-conn = sqlite3.connect('lessons.db')
-conn.row_factory = sqlite3.Row
-return conn
-
-
-with get_db() as db:
-db.execute('''CREATE TABLE IF NOT EXISTS lessons (
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-title TEXT, grade TEXT, duration TEXT,
-objective TEXT, standards TEXT, materials TEXT,
-warmup TEXT, activity TEXT, differentiation TEXT, assessment TEXT
-)''')
-
-
-# ---- APP ROUTES ----
-
-
-@app.route('/', methods=['GET', 'POST'])
-def index():
-lesson = None
-if request.method == 'POST':
-lesson = dict(request.form)
-return render_template_string(TEMPLATE, lesson=lesson)
-
+    lesson = None
+    if request.method == 'POST':
+        lesson = dict(request.form)
+    return render_template_string(TEMPLATE, lesson=lesson)
 
 @app.route('/export', methods=['POST'])
 def export_pdf():
-buffer = io.BytesIO()
-doc = SimpleDocTemplate(buffer, pagesize=LETTER)
-styles = getSampleStyleSheet()
-content = []
+    buffer = io.BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=LETTER)
+    styles = getSampleStyleSheet()
+    content = []
 
+    for key, value in request.form.items():
+        title = key.replace('_', ' ').title()
+        content.append(Paragraph(f"<b>{title}</b>: {value}", styles['Normal']))
+        content.append(Spacer(1, 12))
 
-for key, value in request.form.items():
-title = key.replace('_', ' ').title()
-content.append(Paragraph(f"<b>{title}</b>: {value}", styles['Normal']))
-content.append(Spacer(1, 12))
+    doc.build(content)
+    buffer.seek(0)
 
+    return send_file(buffer, as_attachment=True, download_name="lesson_plan.pdf", mimetype='application/pdf')
 
-doc.build(content)
-buffer.seek(0)
-
-
-return send_file(buffer, as_attachment=True, download_name="lesson_plan.pdf", mimetype='application/pdf')
-
-
-# ---- DATABASE SETUP ----
-import sqlite3
-
-
-def get_db():
-conn = sqlite3.connect('lessons.db')
-conn.row_factory = sqlite3.Row
-return conn
-
-
-with get_db() as db:
-db.execute('''CREATE TABLE IF NOT EXISTS lessons (
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-title TEXT, grade TEXT, duration TEXT,
-objective TEXT, standards TEXT, materials TEXT,
-warmup TEXT, activity TEXT, differentiation TEXT, assessment TEXT
-)''')
-
-
-# ---- APP ROUTES ----
-
-
-@app.route('/', methods=['GET', 'POST'])
-def index():
-lesson = None
-lessons = []
-db = get_db()
-
-
-if request.method == 'POST':
-lesson = dict(request.form)
-db.execute('''INSERT INTO lessons
-(title, grade, duration, objective, standards, materials,
-warmup, activity, differentiation, assessment)
-VALUES (?,?,?,?,?,?,?,?,?,?)''',
-(
-lesson['title'], lesson['grade'], lesson['duration'],
-lesson['objective'], lesson['standards'], lesson['materials'],
-lesson['warmup'], lesson['activity'], lesson['differentiation'],
-lesson['assessment']
-))
-db.commit()
-
-
-lessons = db.execute('SELECT id, title FROM lessons ORDER BY id DESC').fetchall()
-return render_template_string(TEMPLATE, lesson=lesson, lessons=lessons)
-
-
-@app.route('/load/<int:lesson_id>')
-def load_lesson(lesson_id):
-db = get_db()
-lesson = db.execute('SELECT * FROM lessons WHERE id = ?', (lesson_id,)).fetchone()
-lessons = db.execute('SELECT id, title FROM lessons ORDER BY id DESC').fetchall()
-return render_template_string(TEMPLATE, lesson=lesson, lessons=lessons)
-
-
-app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)
